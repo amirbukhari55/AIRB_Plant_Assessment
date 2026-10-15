@@ -8,15 +8,14 @@ A=Path(__file__).parent/'assets'
 def branding():
     st.markdown('''<style>
     .stApp {background:#f5f8fc} [data-testid="stSidebar"] {background:#eaf0f7}
-    .block-container {padding-top:2rem;max-width:1450px}
+    .block-container {padding-top:5rem;max-width:1450px}
     h1,h2,h3 {color:#123255} [data-testid="stMetric"] {background:white;padding:18px;border-radius:12px;border:1px solid #dee7f0}
     .airb-banner {background:linear-gradient(110deg,#102c4b,#126d79);color:white;padding:26px 30px;border-radius:16px;margin:12px 0 22px}
     .airb-banner h2 {color:white;margin:0} .airb-banner p {margin:8px 0 0;color:#d9edf3}
     </style>''',unsafe_allow_html=True)
-    st.sidebar.image(str(A/'airb-logo.png'),width=210)
-    cols=st.columns([1,4]);cols[0].image(str(A/'airb-logo.png'),width=200)
-    cols[1].caption('ALIRAN IHSAN RESOURCES BERHAD · PACKAGE A')
-    cols[1].markdown('**Plant systems assessment & HQ monitoring programme**')
+    st.sidebar.image(str(A/'airb-logo.png'),width=170)
+    st.caption('ALIRAN IHSAN RESOURCES BERHAD · PACKAGE A')
+    st.markdown('**Plant systems assessment & HQ monitoring programme**')
 
 def overview(data,source):
     st.markdown('<div class="airb-banner"><h2>From plant-local data to HQ visibility</h2><p>Current condition → initial gaps → preliminary minimum rectification</p></div>',unsafe_allow_html=True)
