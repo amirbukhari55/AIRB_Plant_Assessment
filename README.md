@@ -84,3 +84,8 @@ All sites have equal standing; photographs and I/O documents are supporting evid
 5. Assess each contractor using 0 to 5 and evidence, assessor and YYYY-MM-DD date. Blank means not assessed. Mandatory pass/fail checks are separate. Final totals remain blank until all weighted criteria are scored; missing required answers and mandatory issues remain visible.
 6. Compare responses and prices side by side, and export a printable comparison HTML or detailed JSON. One-off and annual prices are not automatically mixed or summed.
 No SQL or Secrets change. Upload all files including procurement.py and assets. Existing site/action/component data stays in the same assessment record. This prototype has shared access; no per-user approval or automatic award workflow is claimed.
+
+CONTRACTOR INFORMATION PACK
+Open Contractor information pack in the sidebar. Edit objectives, expected outcomes, concerns, instructions and site details; select Include for the sites in this issue. Add extra sections and choose supporting reference tables and available site evidence. Save each form. Preview and download HTML for browser printing/PDF. Click Link saved information pack to contractor form, then download the complete issue ZIP containing the information brief, selected evidence and aligned blank response form. Send the same ZIP to all bidders.
+Changes in pack content or included component records create a different information-pack version; relink before issuing. Relinking changes the contractor form version, retaining but excluding earlier-version returns from current comparisons. Internal bidder scores and other bidders’ responses are never bundled in the issue ZIP.
+No SQL or Secrets changes. New file information_pack.py must be uploaded alongside the other files.

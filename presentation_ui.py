@@ -95,6 +95,9 @@ def vendor_reference():
         ['HR / Admin','Configurable workflows; external payroll integration; seven-year migration stated','Validate field mapping, scope and acceptance later'],
         ['Procurement','Emergency PR, officer assignment and KPI tracking stated','Confirm AIRB workflows and full cost coverage'],
         ['NRW / Municipal','Operational workflows, budget controls and permissions stated','Requires demonstration against AIRB examples'],
-        ['Commercial','Earlier annual fee/support ambiguity','Not resolved by this clarification document']
+        ['Commercial','SGD 80,000 implementation plus SGD 80,000/year subscription; support text also mentions 20%','Obtain an unambiguous fee schedule and support cost base'],
+        ['Plant hardware boundary','Proposal Section 10 excludes edge gateway hardware and SCADA/PLC-side upgrades','Quote minimum site rectification and dependencies separately'],
+        ['AIRB prerequisites','Proposal assigns power, internet/cellular and network provisions to AIRB','Record who supplies each item and its cost'],
+        ['Automatic monitoring','Supported OPC-UA / Ethernet/IP interfaces assumed; manual plants remain manual until upgraded','ERP deployment alone does not complete automatic HQ monitoring']
         ],columns=['Area','Vendor response summary','Open point']),hide_index=True,width='stretch')
         st.download_button('Download vendor clarification reference',(A/'Tigernix_Clarifications.pdf').read_bytes(),file_name='Tigernix_Clarifications.pdf')

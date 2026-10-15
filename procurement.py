@@ -6,7 +6,7 @@ import streamlit as st
 
 def uid(prefix):return prefix+uuid.uuid4().hex[:10]
 def seed():
-    return {'title':'Plant SCADA and HQ monitoring','reference':'','scope':'Assess existing systems, propose minimum rectification for HQ remote monitoring, automatic logging, diagnostic trends and selected off-site alarms. Quote site work and recurring costs separately.','fields':[{'id':f'Q{i:02}','section':sec,'question':q,'type':'Long text','required':True} for i,(sec,q) in enumerate([
+    return {'information_pack_version':'','information_pack_title':'','title':'Plant SCADA and HQ monitoring','reference':'','scope':'Assess existing systems, propose minimum rectification for HQ remote monitoring, automatic logging, diagnostic trends and selected off-site alarms. Quote site work and recurring costs separately.','fields':[{'id':f'Q{i:02}','section':sec,'question':q,'type':'Long text','required':True} for i,(sec,q) in enumerate([
     ('Technical','Describe existing systems to retain and minimum rectification required by site. Separate confirmed facts from assumptions.'),
     ('Technical','Describe the proposed HQ data connection, supported interfaces and existing vendor or licence dependencies.'),
     ('Technical','Describe automatic logging, timestamps, retention, data quality, communication failure and backfill.'),
@@ -20,10 +20,12 @@ def seed():
 def fingerprint(p):
     # Scoring weights remain internal; changes to published requirements change the token.
     payload={k:p[k] for k in ['title','reference','scope','fields','pricing']}
+    payload['information_pack_version']=p.get('information_pack_version','')
     return hashlib.sha256(json.dumps(payload,sort_keys=True).encode()).hexdigest()[:16]
 
 def validate(p):
     if not isinstance(p,dict):raise ValueError('Invalid procurement workspace')
+    p.setdefault('information_pack_version','');p.setdefault('information_pack_title','')
     for key in ['fields','pricing','criteria','contractors','issues']:
         if not isinstance(p.get(key),list):raise ValueError('Invalid '+key)
     for key in ['fields','pricing','criteria','contractors']:
@@ -60,6 +62,8 @@ def totals(p,c):
 
 def blank_html(p):
     token=fingerprint(p);esc=html.escape
+    p=copy.deepcopy(p)
+    if p.get('information_pack_version'):p['scope']+='\nAccompanying information pack: '+p.get('information_pack_title','AIRB Information Pack')+'; version '+p['information_pack_version']
     controls=[]
     for f in p['fields']:
         ident=esc(f['id']);kind=f['type'];required=' required' if f['required'] else ''
@@ -127,7 +131,7 @@ def render(data,save):
         st.download_button('Export blank contractor form',blank_html(p),file_name='AIRB_Blank_Contractor_Form.html',mime='text/html')
         st.download_button('Export editable template backup',json.dumps(p,indent=2),file_name='AIRB_RFQ_Template_'+token+'.json',mime='application/json')
         if st.button('Record this version as issued'):
-            p['issues'].append({'version':token,'date':date.today().isoformat(),'template':{k:copy.deepcopy(p[k]) for k in ['title','reference','scope','fields','pricing','criteria']}});commit(p)
+            p['issues'].append({'version':token,'date':date.today().isoformat(),'template':{k:copy.deepcopy(p[k]) for k in ['title','reference','scope','fields','pricing','criteria','information_pack_version','information_pack_title']}});commit(p)
         if p['issues']:st.dataframe(pd.DataFrame([{k:r[k] for k in ['version','date']} for r in p['issues']]),hide_index=True)
         with st.expander('Restore an issued template or template backup'):
             st.caption('Restores template fields and scoring criteria; contractor records remain. Scores are cleared to require reassessment.')
@@ -141,7 +145,7 @@ def render(data,save):
             if upload and st.button('Restore uploaded template'):
                 try:
                     r=json.loads(upload.getvalue());validate(r)
-                    for k in ['title','reference','scope','fields','pricing','criteria']:p[k]=r[k]
+                    for k in ['title','reference','scope','fields','pricing','criteria','information_pack_version','information_pack_title']:p[k]=r[k]
                     for c in p['contractors']:c['assessments']={}
                     commit(p)
                 except (ValueError,KeyError,TypeError):st.error('Invalid template backup')

@@ -60,6 +60,9 @@ def validate_state(value):
     from procurement import validate
     value.setdefault('procurement',seed['procurement'])
     validate(value['procurement'])
+    if 'contractor_information_pack' in value:
+        from information_pack import validate as validate_pack
+        validate_pack(value['contractor_information_pack'])
     # Preserve earlier Stage 1 backups while adding new assessment fields.
     seed_by_id={s['id']:s for s in seed['sites']}
     value.setdefault('engineering',[]);value.setdefault('alarms',[])

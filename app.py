@@ -37,7 +37,7 @@ def save(updated):
 from presentation_ui import branding, overview, evidence_workspace
 branding()
 st.sidebar.title('Plant assessment')
-page=st.sidebar.radio('Assessment workspace',['Management overview','Procurement workspace','Components and evidence','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
+page=st.sidebar.radio('Assessment workspace',['Management overview','Contractor information pack','Procurement workspace','Components and evidence','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
 st.sidebar.caption('Stage 1: current conditions and required change')
 if st.sidebar.button('Reload saved assessment'):
     del st.session_state['assessment'];st.rerun()
@@ -68,6 +68,10 @@ if page=='Management overview':
     st.caption('16 system records; 29 reported PLCs. Brand chart counts system records, not PLC units. NRW has 17 populated records. Original workbook totals require corrections.')
     st.subheader('Required decisions')
     st.write('Begin with extraction discovery. Upgrade only where a specific gap requires it. Migrate software or replace hardware after supported integration options, reliability and lifecycle constraints have been evaluated.')
+
+elif page=='Contractor information pack':
+    from information_pack import render
+    render(data,source,save)
 
 elif page=='Procurement workspace':
     from procurement import render
