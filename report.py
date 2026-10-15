@@ -52,10 +52,7 @@ def build_report(state,report_date,prepared_by='',scope='All sites',baseline=Non
         progress.append(['Change from baseline',f"Verified criteria: {m['verified']-old['verified']:+d}; closed actions: {m['closed']-old['closed']:+d}",'Compared with uploaded backup'])
     else:progress.append(['Change from baseline','No previous snapshot supplied','Current status only'])
     section('Assessment progress',['Measure','Current position','Interpretation'],progress,summary or 'Local-PC dependence remains the key reported gap. Verify current status plant by plant.',summary)
-    evidence=[]
-    if 'Ansell' in names:evidence.append(['Ansell','Six photos: PLC, I/O, PSU, Ethernet switch, operator display and local controls','Photo evidence; health unknown'])
-    if 'Top Glove Phase 2' in names:evidence.append(['TG Phase 2','2021 construction I/O list: 828 channels, 237 spare, 591 assigned','Design record; current state unknown'])
-    if evidence:section('Additional evidence and reuse',['Site','Evidence received','Limit'],evidence,'Investigate supported extraction and HQ connectivity before assuming full system replacement.')
+    section('Evidence coverage',['Area','Current position','Assessment limit'],[['Available returns','Compiled inventory and extraction questionnaires','Site and group mappings need confirmation'],['Supporting records','Photos and signal documents linked where supplied','Evidence coverage differs by site'],['Next stage','Assess reuse and minimum rectification for each site','No full replacement decision made']],'Assess every site consistently; additional evidence does not imply site priority.')
     section('Site gaps and proposed changes',['Site','Current gap','Proposed decision'],[[s['Site'],s['Current gap'],s['Decision']] for s in sites],'Recommendations remain subject to site evidence and engineering review.')
     rows=[]
     for g in CAPABILITIES:

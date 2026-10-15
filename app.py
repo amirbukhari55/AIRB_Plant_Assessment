@@ -37,13 +37,13 @@ def save(updated):
 from presentation_ui import branding, overview, evidence_workspace
 branding()
 st.sidebar.title('Plant assessment')
-page=st.sidebar.radio('Assessment workspace',['Management overview','Components and evidence','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
+page=st.sidebar.radio('Assessment workspace',['Management overview','Procurement workspace','Components and evidence','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
 st.sidebar.caption('Stage 1: current conditions and required change')
 if st.sidebar.button('Reload saved assessment'):
     del st.session_state['assessment'];st.rerun()
 st.sidebar.caption('Shared Supabase storage' if config else 'Local SQLite storage. Cloud deployment needs durable storage.')
 st.title(page)
-st.caption('PRELIMINARY DESK ASSESSMENT · Existing returns, Ansell photos and TG Phase 2 design records · Updated 15 October 2026')
+st.caption('PRELIMINARY DESK ASSESSMENT · Available site returns and supporting evidence · Updated 15 October 2026')
 
 if page=='Management overview':
     sites=overview(data, source)
@@ -68,6 +68,10 @@ if page=='Management overview':
     st.caption('16 system records; 29 reported PLCs. Brand chart counts system records, not PLC units. NRW has 17 populated records. Original workbook totals require corrections.')
     st.subheader('Required decisions')
     st.write('Begin with extraction discovery. Upgrade only where a specific gap requires it. Migrate software or replace hardware after supported integration options, reliability and lifecycle constraints have been evaluated.')
+
+elif page=='Procurement workspace':
+    from procurement import render
+    render(data,save)
 
 elif page=='Components and evidence':
     evidence_workspace(data,save)
@@ -175,7 +179,7 @@ elif page=='Progress report (PPT)':
     scope=st.selectbox('Report scope',['All sites']+[s['Site'] for s in data['sites']])
     report_date=st.date_input('Report date',datetime.now(ZoneInfo('Asia/Kuala_Lumpur')).date())
     author=st.text_input('Prepared by','Amir Bukhari')
-    summary=st.text_area('Executive summary / progress update', 'Available site returns have been consolidated and preliminary gaps identified. Ansell photos provide component evidence; TG Phase 2 has a 2021 construction I/O list. HQ connectivity, extraction interfaces and current equipment condition still require confirmation. Reuse existing systems where practicable; rectification proposals remain preliminary.')
+    summary=st.text_area('Executive summary / progress update', 'Available site returns have been consolidated and preliminary gaps identified. Supporting photographs and documents are available for some sites; evidence coverage varies across facilities. HQ connectivity, extraction interfaces and current equipment condition still require confirmation. Reuse existing systems where practicable; rectification proposals remain preliminary.')
     next_steps=st.text_area('Next steps / management decisions')
     include_closed=st.checkbox('Include closed actions',False)
     include_registers=st.checkbox('Include engineering and alarm registers',True)

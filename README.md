@@ -74,3 +74,13 @@ UPDATE 15 OCTOBER 2026
 Upload ALL package contents, including presentation_ui.py and the entire assets folder, into the existing GitHub repository root. Keep assets as a folder. Keep existing Streamlit secrets; do not rerun SQL or reset the database. Download an assessment JSON backup before updating.
 New: AIRB branding, management progress overview, editable component register, six Ansell photos, searchable TG Phase 2 construction I/O list, vendor clarification reference and additional PPT report evidence. Existing saved site/action data is retained; component defaults are added when old records load. No password is required unless app_password is configured in Secrets.
 Evidence is preliminary: photos do not prove performance; the 2021 TG list is not as-built verification. Existing source reports and proposed changes remain separate.
+
+PROCUREMENT WORKSPACE UPDATE
+All sites have equal standing; photographs and I/O documents are supporting evidence only.
+1. Open Procurement workspace > Build form. Edit scope and questions, click Add field for more, and add price items as needed. Save each form.
+2. Issue blank form: record the version, download the HTML form and template backup. Send the same form and attachments to all contractors. The contractor opens HTML in a browser, fills it, downloads completed response JSON and can print to PDF. No entries are sent automatically or saved on closing the page.
+3. Import completed response JSON, or manually add each contractor and record its answers and prices. A changed offer clears its scores. Different form versions are excluded from the same comparison.
+4. Set scoring criteria and weights. Weights start at zero, pending AIRB choice. Positive weights are normalised to 100 percent. Saving criteria clears all assessment scores.
+5. Assess each contractor using 0 to 5 and evidence, assessor and YYYY-MM-DD date. Blank means not assessed. Mandatory pass/fail checks are separate. Final totals remain blank until all weighted criteria are scored; missing required answers and mandatory issues remain visible.
+6. Compare responses and prices side by side, and export a printable comparison HTML or detailed JSON. One-off and annual prices are not automatically mixed or summed.
+No SQL or Secrets change. Upload all files including procurement.py and assets. Existing site/action/component data stays in the same assessment record. This prototype has shared access; no per-user approval or automatic award workflow is claimed.

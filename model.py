@@ -44,6 +44,8 @@ def initial_state():
       ('Alarm notification','One selective SMS system reported; site not identified','Identify existing system; confirm alarm filtering, recipients, escalation and future HQ visibility','Licence/interface'),
       ('Production and reliability','Daily production, downtime and maintenance costs need management visibility','Verify production meters/targets, billing basis, incident logs and maintenance records','Data preparation')]:
         actions.append({'ID':f'A{len(actions)+1:03d}','Site':'All sites','Objective':objective,'Gap':gap,'Proposed action':action,'Change type':kind,'Priority':'High','Owner':'Unassigned','Status':'Open','Evidence':'User requirements, 7 October 2026. Site verification pending.','One-time RM':None,'Annual RM':None,'Due date':''})
+    from procurement import seed
+    value['procurement']=seed()
     return value
 
 def readiness(site):
@@ -55,6 +57,9 @@ def readiness(site):
 def validate_state(value):
     if not isinstance(value,dict) or value.get('schema_version')!=1: raise ValueError('Unsupported assessment format')
     seed=initial_state()
+    from procurement import validate
+    value.setdefault('procurement',seed['procurement'])
+    validate(value['procurement'])
     # Preserve earlier Stage 1 backups while adding new assessment fields.
     seed_by_id={s['id']:s for s in seed['sites']}
     value.setdefault('engineering',[]);value.setdefault('alarms',[])
