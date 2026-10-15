@@ -68,3 +68,9 @@ All eight pages ran without exceptions in Streamlit AppTest. Site form persisten
 Open Progress report (PPT), choose all sites or a site, set the date and prepared-by name, and optionally add executive/next-step notes. Upload a previous JSON backup to compare verified criteria and closed actions. Click Generate PowerPoint report, then Download PowerPoint. Save assessment edits first: report generation fetches the latest saved revision. The report uses editable native slides/tables and automatic pagination. Long records are preserved in speaker notes. Include/exclude closed actions and engineering/alarm registers. There are no fabricated live operating figures.
 
 Upload both new files report.py and report_template.pptx along with the updated app.py. No new Python dependencies or database changes are needed. Existing assessment data is retained. Export generation and generated PPTX structure/import/render were checked.
+
+
+UPDATE 15 OCTOBER 2026
+Upload ALL package contents, including presentation_ui.py and the entire assets folder, into the existing GitHub repository root. Keep assets as a folder. Keep existing Streamlit secrets; do not rerun SQL or reset the database. Download an assessment JSON backup before updating.
+New: AIRB branding, management progress overview, editable component register, six Ansell photos, searchable TG Phase 2 construction I/O list, vendor clarification reference and additional PPT report evidence. Existing saved site/action data is retained; component defaults are added when old records load. No password is required unless app_password is configured in Secrets.
+Evidence is preliminary: photos do not prove performance; the 2021 TG list is not as-built verification. Existing source reports and proposed changes remain separate.

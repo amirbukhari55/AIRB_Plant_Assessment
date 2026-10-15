@@ -34,26 +34,19 @@ def save(updated):
     except (ValueError,RuntimeError) as e: st.error(str(e))
     except Exception: st.error('Save failed. Check the connection and reload before retrying.')
 
-st.sidebar.title('AIRB • Package A')
-page=st.sidebar.radio('Assessment workspace',['Management overview','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
+from presentation_ui import branding, overview, evidence_workspace
+branding()
+st.sidebar.title('Plant assessment')
+page=st.sidebar.radio('Assessment workspace',['Management overview','Components and evidence','Site assessment','Engineering and automation','Alarm notification','Gap and upgrade register','Source evidence','Roadmap','Progress report (PPT)','Backup and restore'])
 st.sidebar.caption('Stage 1: current conditions and required change')
 if st.sidebar.button('Reload saved assessment'):
     del st.session_state['assessment'];st.rerun()
 st.sidebar.caption('Shared Supabase storage' if config else 'Local SQLite storage. Cloud deployment needs durable storage.')
 st.title(page)
-st.caption('Reported June–July 2026 information • Desk assessment dated 7 October 2026 • Verify current conditions at each site')
+st.caption('PRELIMINARY DESK ASSESSMENT · Existing returns, Ansell photos and TG Phase 2 design records · Updated 15 October 2026')
 
 if page=='Management overview':
-    st.info('Objective: remote HQ monitoring, automatic logging and trusted data for operations and other departments. This app tracks readiness; it does not connect to plant controls.')
-    segment=st.selectbox('Filter assessment groups',['All']+sorted({s['Segment'] for s in data['sites']}))
-    sites=[s for s in data['sites'] if segment=='All' or s['Segment']==segment]
-    verified=sum(g['Status']=='Verified' for s in sites for g in s['gates'].values())
-    c=st.columns(4)
-    applicable=sum(g['Status']!='Not applicable' for s in sites for g in s['gates'].values())
-    c[0].metric('Assessment groups',len(sites));c[1].metric('Verified criteria',f'{verified} / {applicable}')
-    c[2].metric('Groups with blockers',sum('Blocked' in [g['Status'] for g in s['gates'].values()] for s in sites))
-    c[3].metric('Open actions',sum(a['Status']!='Closed' for a in data['actions'] if segment=='All' or a['Site']=='All sites' or a['Site'] in [s['Site'] for s in sites]))
-    st.caption('Groups are not a verified count of plants. Sixteen criteria per group; Not applicable is excluded from the denominator. No weighted readiness percentage.')
+    sites=overview(data, source)
     st.subheader('Priority capability comparison')
     rows=[{'Site':s['Site'],**{g:s['gates'][g]['Status'] for g in CAPABILITIES}} for s in sites]
     colours={'Unknown':'#f1f5f9','Reported':'#dbeafe','Blocked':'#fee2e2','Verified':'#dcfce7','Not applicable':'#f3f4f6'}
@@ -75,6 +68,9 @@ if page=='Management overview':
     st.caption('16 system records; 29 reported PLCs. Brand chart counts system records, not PLC units. NRW has 17 populated records. Original workbook totals require corrections.')
     st.subheader('Required decisions')
     st.write('Begin with extraction discovery. Upgrade only where a specific gap requires it. Migrate software or replace hardware after supported integration options, reliability and lifecycle constraints have been evaluated.')
+
+elif page=='Components and evidence':
+    evidence_workspace(data,save)
 
 elif page=='Site assessment':
     name=st.selectbox('Site / group',[s['Site'] for s in data['sites']]);index=next(i for i,s in enumerate(data['sites']) if s['Site']==name);site=data['sites'][index]
@@ -101,7 +97,7 @@ elif page=='Site assessment':
 elif page=='Engineering and automation':
     st.info('Assess each asset separately. Local PLC control, authorised remote commands and safe maintenance isolation are different capabilities. This app issues no control commands.')
     columns=['Site','Asset','Local operation','HQ remote command','Sensor / transmitter','Actuated valve / drive','Position / status feedback','Controller / PLC logic','Pneumatic supply','Interlocks','Physical isolation / LOTO','Gap','Proposed change','Evidence']
-    st.caption('No asset-specific hardware information was supplied. Add critical equipment here rather than assuming components are absent.')
+    st.caption('See Components and evidence for Ansell photos and TG Phase 2 signals. Use this register for equipment-level automation and isolation assessments.')
     with st.form('engineering'):
         edited=st.data_editor(pd.DataFrame(data['engineering'],columns=columns),num_rows='dynamic',hide_index=True,width='stretch',column_config={
           'Site':st.column_config.SelectboxColumn(options=[s['Site'] for s in data['sites']],required=True),
@@ -179,7 +175,7 @@ elif page=='Progress report (PPT)':
     scope=st.selectbox('Report scope',['All sites']+[s['Site'] for s in data['sites']])
     report_date=st.date_input('Report date',datetime.now(ZoneInfo('Asia/Kuala_Lumpur')).date())
     author=st.text_input('Prepared by','Amir Bukhari')
-    summary=st.text_area('Executive summary / progress update')
+    summary=st.text_area('Executive summary / progress update', 'Available site returns have been consolidated and preliminary gaps identified. Ansell photos provide component evidence; TG Phase 2 has a 2021 construction I/O list. HQ connectivity, extraction interfaces and current equipment condition still require confirmation. Reuse existing systems where practicable; rectification proposals remain preliminary.')
     next_steps=st.text_area('Next steps / management decisions')
     include_closed=st.checkbox('Include closed actions',False)
     include_registers=st.checkbox('Include engineering and alarm registers',True)

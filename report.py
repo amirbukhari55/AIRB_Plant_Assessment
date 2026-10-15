@@ -46,12 +46,16 @@ def build_report(state,report_date,prepared_by='',scope='All sites',baseline=Non
                 row=headers if r==0 else page_rows[r-1] if r<=len(page_rows) else ['','','']
                 for c in range(3):mapping[f'CELL_{r}_{c}']=short(row[c],limits[c])
             pages.append((2,mapping))
-    progress=[['Assessment groups',str(len(sites)),'Not a unique-plant count'],['Verified criteria',f"{m['verified']} / {m['applicable']} applicable criteria",'No weighted percentage'],['Action status',f"{m['closed']} closed / {m['open']} open",'Closed means register status'],['Engineering / alarms',f"{sum(r['Site'] in names or r['Site']=='All sites' for r in state['engineering'])} asset rows / {sum(r['Site'] in names or r['Site']=='All sites' for r in state['alarms'])} alarm rows",'Submitted survey records']]
+    progress=[['Assessment groups',str(len(sites)),'Not a unique-plant count'],['Assessment work','Returns consolidated; preliminary gaps identified','Desk assessment, not commissioning'],['Action status',f"{m['closed']} closed / {m['open']} open",'Closed means register status'],['Engineering / alarms',f"{sum(r['Site'] in names or r['Site']=='All sites' for r in state['engineering'])} asset rows / {sum(r['Site'] in names or r['Site']=='All sites' for r in state['alarms'])} alarm rows",'Submitted survey records']]
     if baseline:
         old_sites=[s for s in baseline['sites'] if s['id'] in ids];old_actions=[a for a in baseline['actions'] if a['Site'] in names or a['Site']=='All sites'];old=metrics(old_sites,old_actions)
         progress.append(['Change from baseline',f"Verified criteria: {m['verified']-old['verified']:+d}; closed actions: {m['closed']-old['closed']:+d}",'Compared with uploaded backup'])
     else:progress.append(['Change from baseline','No previous snapshot supplied','Current status only'])
     section('Assessment progress',['Measure','Current position','Interpretation'],progress,summary or 'Local-PC dependence remains the key reported gap. Verify current status plant by plant.',summary)
+    evidence=[]
+    if 'Ansell' in names:evidence.append(['Ansell','Six photos: PLC, I/O, PSU, Ethernet switch, operator display and local controls','Photo evidence; health unknown'])
+    if 'Top Glove Phase 2' in names:evidence.append(['TG Phase 2','2021 construction I/O list: 828 channels, 237 spare, 591 assigned','Design record; current state unknown'])
+    if evidence:section('Additional evidence and reuse',['Site','Evidence received','Limit'],evidence,'Investigate supported extraction and HQ connectivity before assuming full system replacement.')
     section('Site gaps and proposed changes',['Site','Current gap','Proposed decision'],[[s['Site'],s['Current gap'],s['Decision']] for s in sites],'Recommendations remain subject to site evidence and engineering review.')
     rows=[]
     for g in CAPABILITIES:
@@ -68,6 +72,8 @@ def build_report(state,report_date,prepared_by='',scope='All sites',baseline=Non
     budget += [['Production / revenue','Actual production and contract billing data not supplied','No revenue loss calculated'],['Maintenance / downtime','Actual event and maintenance costs not supplied','No operating KPIs calculated']]
     section('Cost and management information',['Area','Current information','Coverage'],budget,'Cost totals cover quoted action estimates only, not an approved complete project budget.')
     if include_registers:
+        components=[r for r in state.get('components',[]) if r['Site'] in names]
+        if components:section('SCADA component inventory',['Site / component','Details','Evidence'],[[r['Site']+' / '+r['Component'],r.get('Details',''),r.get('Evidence status','Unknown')] for r in components],'AVR presence does not establish UPS availability. Components are distinct from I/O channels.',json.dumps(components,ensure_ascii=False,indent=2))
         engineering=[r for r in state['engineering'] if r['Site'] in names or r['Site']=='All sites']
         section('Engineering and automation',['Site / asset','Gap / proposed change','Operating capability'],[[r['Site']+' / '+r['Asset'],str(r.get('Gap') or '')+' / '+str(r.get('Proposed change') or ''),str(r.get('Local operation') or 'Unknown')+' / HQ: '+str(r.get('HQ remote command') or 'Unknown')] for r in engineering],'PLC operation, remote commands and safe physical isolation require separate assessment.',json.dumps(engineering,ensure_ascii=False,indent=2))
         alarms=[r for r in state['alarms'] if r['Site'] in names or r['Site']=='All sites']

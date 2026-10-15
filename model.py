@@ -28,7 +28,7 @@ def initial_state():
     for site in records:
         actions.append({'ID':f'A{len(actions)+1:03d}','Site':site['Site'],'Objective':'Automatic logging','Gap':site['Current gap'],'Proposed action':site['Candidate route'],'Change type':'Verification','Priority':'High' if site['Segment']!='NRW' else 'Medium','Owner':'Unassigned','Status':'Open','Evidence':'Source return; proposal needs site/vendor validation','One-time RM':None,'Annual RM':None,'Due date':''})
     actions.append({'ID':f'A{len(actions)+1:03d}','Site':'All sites','Objective':'Shared department dashboards','Gap':'Source IDs, capacity units, formulas and tag definitions inconsistent','Proposed action':'Reconcile master register; define production, cost, procurement and HR joins','Change type':'Data preparation','Priority':'High','Owner':'Unassigned','Status':'Open','Evidence':'Compiled inventory and questionnaire review','One-time RM':None,'Annual RM':None,'Due date':''})
-    value={'schema_version':1,'sites':records,'actions':actions,'engineering':[],'alarms':[]}
+    value={'schema_version':1,'sites':records,'actions':actions,'engineering':[],'alarms':[],'components':json.loads((Path(__file__).parent/'assets'/'component-seed.json').read_text())}
     for s in records:
         s['gates']['HQ remote data access']['Evidence']='User reports dependence on plant-local PC for data access. Individual site access needs confirmation.'
         if s['Segment']!='NRW':s['gates']['HQ remote data access']['Status']='Blocked'
@@ -58,6 +58,11 @@ def validate_state(value):
     # Preserve earlier Stage 1 backups while adding new assessment fields.
     seed_by_id={s['id']:s for s in seed['sites']}
     value.setdefault('engineering',[]);value.setdefault('alarms',[])
+    value.setdefault('components',seed['components'])
+    if not isinstance(value['components'],list):raise ValueError('Invalid component register')
+    for row in value['components']:
+        if row.get('Site') not in {s['Site'] for s in seed['sites']} or not str(row.get('Component','')).strip():raise ValueError('Components need a valid site and component name')
+    if len({r.get('ID') for r in value['components']})!=len(value['components']):raise ValueError('Component IDs must be unique')
     for s in value.get('sites',[]):
         for g in CAPABILITIES:
             if s.get('id') in seed_by_id:s['gates'].setdefault(g,seed_by_id[s['id']]['gates'][g])

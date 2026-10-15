@@ -1,0 +1,134 @@
+[
+  {
+    "ID": "C001",
+    "Site": "Ansell",
+    "Component": "PLC / CPU assembly",
+    "Brand": "Siemens",
+    "Details": "Exact CPU model not legible",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-1.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C002",
+    "Site": "Ansell",
+    "Component": "I/O expansion modules",
+    "Brand": "Siemens",
+    "Details": "SM 1222 DC label visible; full module schedule unknown",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-2.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C003",
+    "Site": "Ansell",
+    "Component": "Ethernet switch",
+    "Brand": "Not legible",
+    "Details": "Connected Ethernet cables; model and topology unknown",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-2.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C004",
+    "Site": "Ansell",
+    "Component": "24 VDC PSU",
+    "Brand": "Mean Well",
+    "Details": "EDR-75-24; label: 24 VDC, 3.2 A",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-2.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C005",
+    "Site": "Ansell",
+    "Component": "Automatic voltage regulator",
+    "Brand": "RP AVR",
+    "Details": "AVR visible; battery backup not established",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-1.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C006",
+    "Site": "Ansell",
+    "Component": "Operator panel / computer",
+    "Brand": "Not legible",
+    "Details": "Panel-mounted computer/display; specifications unknown",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-3.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C007",
+    "Site": "Ansell",
+    "Component": "Interface relays",
+    "Brand": "Not legible",
+    "Details": "Wired relay bank; ratings and functions unknown",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-1.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C008",
+    "Site": "Ansell",
+    "Component": "Panel protection and terminals",
+    "Brand": "Mixed / not legible",
+    "Details": "Circuit breakers and terminal blocks visible",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-1.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C009",
+    "Site": "Ansell",
+    "Component": "Panel ventilation",
+    "Brand": "Not legible",
+    "Details": "Fan and thermostat visible",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-3.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C010",
+    "Site": "Ansell",
+    "Component": "Local controls / alarms",
+    "Brand": "Not legible",
+    "Details": "Selector switches, alarm lamps, buzzer and mute button",
+    "Evidence status": "Visible in photo",
+    "Source": "ansell-6.jpg",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C011",
+    "Site": "Ansell",
+    "Component": "UPS",
+    "Brand": "Not provided",
+    "Details": "Not established by these photos; AVR is not proof of UPS",
+    "Evidence status": "Not yet confirmed",
+    "Source": "",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  },
+  {
+    "ID": "C012",
+    "Site": "Top Glove Phase 2",
+    "Component": "PLC system",
+    "Brand": "Siemens",
+    "Details": "Manufacturer in I/O list; CPU model not established",
+    "Evidence status": "Documented design",
+    "Source": "TG_Phase2_IO_List_2021.pdf",
+    "Condition": "Not assessed",
+    "Proposed action": "Confirm reuse and interface requirements; no replacement decision yet"
+  }
+]
